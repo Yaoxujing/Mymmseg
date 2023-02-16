@@ -581,20 +581,20 @@ class Config:
             file (str, optional): Path of the output file where the config
                 will be dumped. Defaults to None.
         """
-        import mmcv
+        import mmmcv
         cfg_dict = super().__getattribute__('_cfg_dict').to_dict()
         if file is None:
             if self.filename is None or self.filename.endswith('.py'):
                 return self.pretty_text
             else:
                 file_format = self.filename.split('.')[-1]
-                return mmcv.dump(cfg_dict, file_format=file_format)
+                return mmmcv.dump(cfg_dict, file_format=file_format)
         elif file.endswith('.py'):
             with open(file, 'w', encoding='utf-8') as f:
                 f.write(self.pretty_text)
         else:
             file_format = file.split('.')[-1]
-            return mmcv.dump(cfg_dict, file=file, file_format=file_format)
+            return mmmcv.dump(cfg_dict, file=file, file_format=file_format)
 
     def merge_from_dict(self, options, allow_list_keys=True):
         """Merge list into cfg_dict.
