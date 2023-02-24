@@ -6,8 +6,9 @@ import time
 import warnings
 
 import sys
-sys.path.append(os.getcwd())
-print(os.getcwd())
+sys.path.append(os.getcwd()+'/Mymmseg') #config专用
+# sys.path.append(os.getcwd())
+print("current path:",os.getcwd())
 
 import torch
 from mmmcv.utils import DictAction,Config,get_git_hash
@@ -19,6 +20,9 @@ from mmmseg import __version__
 from mmmseg.utils import get_root_logger,setup_multi_processes,collect_env
 from mmmseg.utils import get_device
 from mmmseg.apis import init_random_seed, set_random_seed
+
+#model
+from mmmseg.models import build_segmentor
 
 import torch.distributed as dist
 
@@ -203,16 +207,16 @@ def main():
     meta['seed'] = seed
     meta['exp_name'] = osp.basename(args.config)
 
-    print(cfg)
+    # print(cfg)
     print('over')
 
 
-    
-    # model = build_segmentor(
-    #     cfg.model,
-    #     train_cfg=cfg.get('train_cfg'),
-    #     test_cfg=cfg.get('test_cfg'))
-    # model.init_weights()
+    #今天主要用来写这个函数  0224
+    model = build_segmentor(
+        cfg.model,
+        train_cfg=cfg.get('train_cfg'),
+        test_cfg=cfg.get('test_cfg'))
+    model.init_weights()
 
     # # SyncBN is not support for DP
     # if not distributed:
