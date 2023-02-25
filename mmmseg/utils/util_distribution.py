@@ -1,5 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import mmmcv
+import mmcv
 import torch
 from mmmcv.parallel import MMDataParallel, MMDistributedDataParallel
 

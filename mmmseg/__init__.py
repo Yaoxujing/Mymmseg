@@ -8,14 +8,15 @@ import mmmcv
 from packaging.version import parse
 
 from .version import __version__, version_info
-from .models import *
-from .ops import *
+# from .models import *
+# from .ops import *
+# from .datasets import *
 
 MMCV_MIN = '1.3.13'
 MMCV_MAX = '1.8.0'
 
 def digit_version(version_str: str, length: int = 4):
-    """Convert a version string into a tuple of integers.
+    """将版本字符串转换为整数元组
 
     This method is usually used for comparing two versions. For pre-release
     versions: alpha < beta < rc.

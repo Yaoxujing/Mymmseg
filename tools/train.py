@@ -14,6 +14,7 @@ import torch
 from mmmcv.utils import DictAction,Config,get_git_hash
 from mmmcv.runner import init_dist,get_dist_info
 from mmmcv.parallel import *
+from mmmcv.cnn.utils import revert_sync_batchnorm
 import mmmcv
 # import mmmseg
 from mmmseg import __version__
@@ -23,6 +24,7 @@ from mmmseg.apis import init_random_seed, set_random_seed
 
 #model
 from mmmseg.models import build_segmentor
+from mmmseg.datasets import build_dataset
 
 import torch.distributed as dist
 
@@ -212,13 +214,14 @@ def main():
 
 
     #今天主要用来写这个函数  0224
-    model = build_segmentor(
-        cfg.model,
-        train_cfg=cfg.get('train_cfg'),
-        test_cfg=cfg.get('test_cfg'))
-    model.init_weights()
+    # model = build_segmentor(
+    #     cfg.model,
+    #     train_cfg=cfg.get('train_cfg'),
+    #     test_cfg=cfg.get('test_cfg'))
+    # model.init_weights()
 
-    # # SyncBN is not support for DP
+    # 分布式训练
+    # SyncBN is not support for DP
     # if not distributed:
     #     warnings.warn(
     #         'SyncBN is only supported with DDP. To be compatible with DP, '
@@ -228,7 +231,10 @@ def main():
 
     # logger.info(model)
 
-    # datasets = [build_dataset(cfg.data.train)]
+    datasets = [build_dataset(cfg.data.train)]
+
+    print('ok')
+    print(datasets)
     # if len(cfg.workflow) == 2:
     #     val_dataset = copy.deepcopy(cfg.data.val)
     #     val_dataset.pipeline = cfg.data.train.pipeline
